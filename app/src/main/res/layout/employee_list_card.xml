@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="EmployeeDataBinding">
+
+        <import type="android.view.View" />
+
+        <variable
+            name="employeeDataViewModel"
+            type="com.example.employeedetails.employeeList.viewModel.EmployeeDataViewModel" />
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/employee_list_card_margin"
+        android:background="@drawable/card_gtradient"
+        android:elevation="3dp"
+        android:paddingHorizontal="@dimen/employee_list_card_margin"
+        android:paddingVertical="@dimen/employee_list_card_margin"
+        app:cardCornerRadius="@dimen/employee_list_card_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/employee_list_margin"
+            android:layout_marginVertical="@dimen/employee_list_margin"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/employee_list_card_margin"
+                android:layout_marginRight="@dimen/employee_list_card_margin">
+
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/employee_list_margin"
+                    android:text="@{`ID: ` + employeeDataViewModel.id!=null?employeeDataViewModel.id:`No ID`}"
+                    android:textSize="@dimen/name_id_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/employee_list_margin"
+                    android:text="@{`Name: `+ employeeDataViewModel.employee_name!=null?employeeDataViewModel.employee_name:`No Name`}"
+                    android:textSize="@dimen/name_id_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_salary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/employee_list_margin"
+                    android:text="@{`Salary: `+ employeeDataViewModel.employee_salary!= null ? employeeDataViewModel.employee_salary : `No Salary`}"
+                    android:textSize="@dimen/age_salary_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/employee_list_margin"
+                    android:text="@{`Age: `+ employeeDataViewModel.employee_age!= null ? employeeDataViewModel.employee_age : `No Age`}"
+                    android:textSize="@dimen/age_salary_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
