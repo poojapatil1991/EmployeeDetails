@@ -2,13 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data class="EmployeeDataBinding">
-
-        <import type="android.view.View" />
-
+    <data class="EmployeeCardBinding">
         <variable
-            name="employeeDataViewModel"
-            type="com.example.employeedetails.employeeList.viewModel.EmployeeDataViewModel" />
+            name="employeeDetailsViewModel"
+            type="com.example.employeedetails.employeeList.viewModel.EmployeeDetailsViewModel" />
     </data>
 
 
@@ -43,6 +40,7 @@
                 android:layout_weight="7"
                 android:orientation="vertical"
                 android:layout_marginEnd="@dimen/employee_list_card_margin"
+                android:layout_marginStart="@dimen/employee_list_margin"
                 android:layout_marginRight="@dimen/employee_list_card_margin">
 
                 <TextView
@@ -50,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/employee_list_margin"
-                    android:text="@{`ID: ` + employeeDataViewModel.id!=null?employeeDataViewModel.id:`No ID`}"
+                    android:text="@{`ID: ` + (employeeDetailsViewModel.id!=null?employeeDetailsViewModel.id:`No ID`)}"
                     android:textSize="@dimen/name_id_text_size"
                     android:textStyle="bold" />
 
@@ -59,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/employee_list_margin"
-                    android:text="@{`Name: `+ employeeDataViewModel.employee_name!=null?employeeDataViewModel.employee_name:`No Name`}"
+                    android:text="@{`Name: `+ (employeeDetailsViewModel.employee_name!=null?employeeDetailsViewModel.employee_name:`No Name`)}"
                     android:textSize="@dimen/name_id_text_size"
                     android:textStyle="bold" />
 
@@ -68,16 +66,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/employee_list_margin"
-                    android:text="@{`Salary: `+ employeeDataViewModel.employee_salary!= null ? employeeDataViewModel.employee_salary : `No Salary`}"
-                    android:textSize="@dimen/age_salary_text_size" />
+                    android:text="@{`Salary: `+ (employeeDetailsViewModel.employee_salary!= null ? employeeDetailsViewModel.employee_salary : `No Salary`)}"
+                    android:textSize="@dimen/name_id_text_size"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/employee_list_margin"
-                    android:text="@{`Age: `+ employeeDataViewModel.employee_age!= null ? employeeDataViewModel.employee_age : `No Age`}"
-                    android:textSize="@dimen/age_salary_text_size" />
+                    android:text="@{`Age: `+ (employeeDetailsViewModel.employee_age!= null ? employeeDetailsViewModel.employee_age : `No Age`)}"
+                    android:textSize="@dimen/name_id_text_size"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
 

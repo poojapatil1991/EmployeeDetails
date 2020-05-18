@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 class ApiModule  {
 
     private var retrofit: Retrofit? = null
-    private val baseUrl = "http://dummy.restapiexample.com/api/v1/"
+    private val baseUrl = "http://dummy.restapiexample.com"
 
     // function returns instance of retrofit
     private fun provideApiRetrofit(): Retrofit? {

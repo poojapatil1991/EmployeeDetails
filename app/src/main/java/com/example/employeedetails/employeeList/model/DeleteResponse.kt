@@ -1,6 +1,6 @@
 package com.example.employeedetails.employeeList.model
 
-class Response {
+class DeleteResponse {
     var status: String = " "
-    var data: ArrayList<EmployeeDetails> = ArrayList()
+    var message: String = " "
 }

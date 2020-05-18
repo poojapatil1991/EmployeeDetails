@@ -5,16 +5,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.employeedetails.R
-import com.example.employeedetails.databinding.EmployeeDataBinding
-import com.example.employeedetails.employeeList.viewModel.EmployeeDataViewModel
+import com.example.employeedetails.databinding.EmployeeCardBinding
+import com.example.employeedetails.employeeList.viewModel.EmployeeDetailsViewModel
+import java.util.*
 
-class EmployeeListAdapter(private var mEmployeeViewModelList: ArrayList<EmployeeDataViewModel>?) :
+
+class EmployeeListAdapter(private var mEmployeeViewModelList: ArrayList<EmployeeDetailsViewModel>?) :
     RecyclerView.Adapter<EmployeeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
-        val employeeDataBinding: EmployeeDataBinding =
-            DataBindingUtil.inflate(inflater, R.layout.employee_list_card, viewGroup, false)
+        val employeeDataBinding: EmployeeCardBinding =
+            DataBindingUtil.inflate(inflater, R.layout.employee_card, viewGroup, false)
 
         return ViewHolder(employeeDataBinding)
     }
@@ -30,17 +32,17 @@ class EmployeeListAdapter(private var mEmployeeViewModelList: ArrayList<Employee
     }
 
     // View holder representing single row in list
-    class ViewHolder(private val employeeBinding: EmployeeDataBinding) :
+    class ViewHolder(private val employeeBinding: EmployeeCardBinding) :
         RecyclerView.ViewHolder(employeeBinding.root) {
 
-        fun bind(employeeDataViewModel: EmployeeDataViewModel) {
-            this.employeeBinding.employeeDataViewModel = employeeDataViewModel
+        fun bind(employeeDetailsViewModel: EmployeeDetailsViewModel) {
+            this.employeeBinding.employeeDetailsViewModel = employeeDetailsViewModel
             employeeBinding.executePendingBindings()
         }
 
     }
 
-    fun setArrayList(arrayList: ArrayList<EmployeeDataViewModel>) {
+    fun setArrayList(arrayList: ArrayList<EmployeeDetailsViewModel>) {
         mEmployeeViewModelList = arrayList
         notifyDataSetChanged()
     }

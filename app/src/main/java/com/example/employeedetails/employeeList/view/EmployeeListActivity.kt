@@ -1,60 +1,77 @@
 package com.example.employeedetails.employeeList.view
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.employeedetails.R
-import com.example.employeedetails.employeeList.viewModel.EmployeeDataViewModel
+import com.example.employeedetails.addEmployee.view.AddEmployeeActivity
+import com.example.employeedetails.employeeList.viewModel.DeleteResponseViewModel
+import com.example.employeedetails.employeeList.viewModel.EmployeeDetailsViewModel
 import com.example.employeedetails.employeeList.viewModel.ResponseViewModel
 import com.example.employeedetails.utils.EmployeeDetailsApplication
 import com.example.employeedetails.utils.NetworkConnection
-
 import kotlinx.android.synthetic.main.activity_employee_list.*
 import kotlinx.android.synthetic.main.content_employee_list.*
+
 
 class EmployeeListActivity : AppCompatActivity(),SwipeRefreshLayout.OnRefreshListener,
     LifecycleOwner {
 
     private var employeeListAdapter: EmployeeListAdapter =
-        EmployeeListAdapter(ArrayList<EmployeeDataViewModel>())
+        EmployeeListAdapter(ArrayList<EmployeeDetailsViewModel>())
     private var context: EmployeeListActivity? = null
     private var responseViewModel: ResponseViewModel? = null
+    private var deleteResponseViewModel: DeleteResponseViewModel? = null
     private lateinit var mDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_employee_list)
         setSupportActionBar(toolbar)
         context = this
         mDialog = Dialog(this)
         mDialog.setCancelable(false)
         mDialog.setCanceledOnTouchOutside(false)
+        swipe_refresh.setOnRefreshListener(this)
 
         responseViewModel = ViewModelProviders.of(this).get(ResponseViewModel::class.java)
+        deleteResponseViewModel = ViewModelProviders.of(this).get(DeleteResponseViewModel::class.java)
+
         rv_employee_list!!.layoutManager = LinearLayoutManager(context)
         rv_employee_list!!.adapter = employeeListAdapter
+
+        loadDataInRecyclerView()
 
         responseViewModel!!.loadingError.observe(
             this,
             Observer { t: Boolean -> showError(t, "Please try again!!!") })
 
         responseViewModel!!.loading.observe(this, Observer { t: Boolean -> showLoading(t) })
-        //responseViewModel!!.statusLiveData.observe(this, Observer { t: String -> showTitle(t) })
         responseViewModel!!.dataLiveData
-            .observe(this, Observer { it: ArrayList<EmployeeDataViewModel> ->
+            .observe(this, Observer { it: ArrayList<EmployeeDetailsViewModel> ->
                 employeeListAdapter.setArrayList(it)
             })
 
-        loadDataInRecyclerView()
+        val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
+            SwipeToDeleteCallback(deleteResponseViewModel!!,employeeListAdapter )
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rv_employee_list)
+
+        deleteResponseViewModel!!.loading.observe(this, Observer { t: Boolean -> showLoading(t)  })
+        deleteResponseViewModel!!.loadingError.observe(
+            this,
+            Observer { t: Boolean -> showError(t, "Please try again!!!") })
+
+        btn_add.setOnClickListener(View.OnClickListener { v: View? -> showAddEmployeeActivity()  })
 
     }
     //Function to show country feature in recycler view
@@ -101,14 +118,8 @@ class EmployeeListActivity : AppCompatActivity(),SwipeRefreshLayout.OnRefreshLis
             mDialog.hide()
         }
     }
-
-  /*  //Function to show title in action bar
-    private fun showTitle(title: String) {
-        supportActionBar!!.title = title
-    }*/
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    private fun showAddEmployeeActivity(){
+        var intent: Intent = Intent(this,AddEmployeeActivity::class.java)
+        startActivity(intent)
     }
 }
